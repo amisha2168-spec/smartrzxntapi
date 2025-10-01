@@ -1,1 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Resources</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f0f2f5;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+    }
+    select {
+        display: block;
+        margin: 0 auto 30px auto;
+        padding: 10px 15px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background: #fff;
+        cursor: pointer;
+    }
+    .tabs {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+    .tab {
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        background: #e0e0e0;
+        transition: all 0.3s;
+    }
+    .tab.active {
+        background: #4caf50;
+        color: #fff;
+    }
+    .content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    .content button {
+        padding: 15px 25px;
+        border: none;
+        border-radius: 12px;
+        background: #4caf50;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s;
+    }
+    .content button:hover {
+        background: #45a049;
+        transform: scale(1.05);
+    }
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+<h1>Study Resources</h1>
+
+<select id="subjectSelect">
+    <option value="">Select Subject</option>
+    <option value="math">Math</option>
+    <option value="science">Science</option>
+    <option value="sst">SST</option>
+    <option value="eng">English</option>
+    <option value="it">IT</option>
+    <option value="ai">AI</option>
+    <option value="hindi">Hindi</option>
+    <option value="sanskrit">Sanskrit</option>
+</select>
+
+<div class="tabs hidden" id="tabs">
+    <div class="tab active" data-type="lectures">Lectures</div>
+    <div class="tab" data-type="notes">Notes</div>
+</div>
+
+<div class="content" id="content"></div>
+
+<script>
+const baseURL = "https://ntapi.netlify.app/api/9/aarambh";
+const subjectSelect = document.getElementById('subjectSelect');
+const tabs = document.getElementById('tabs');
+const contentDiv = document.getElementById('content');
+let currentSubject = '';
+let currentTab = 'lectures';
+
+subjectSelect.addEventListener('change', () => {
+    currentSubject = subjectSelect.value;
+    if (!currentSubject) {
+        tabs.classList.add('hidden');
+        contentDiv.innerHTML = '';
+        return;
+    }
+    tabs.classList.remove('hidden');
+    currentTab = 'lectures';
+    loadContent(currentSubject, currentTab);
+    updateTabs();
+});
+
+tabs.addEventListener('click', (e) => {
+    if (e.target.classList.contains('tab')) {
+        currentTab = e.target.getAttribute('data-type');
+        updateTabs();
+        loadContent(currentSubject, currentTab);
+    }
+});
+
+function updateTabs() {
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.getAttribute('data-type') === currentTab) {
+            tab.classList.add('active');
+        }
+    });
+}
+
+async function loadContent(subject, type) {
+    contentDiv.innerHTML = 'Loading...';
+    try {
+        const response = await fetch(`${baseURL}/${subject}/${type}.json`);
+        const data = await response.json();
+        contentDiv.innerHTML = '';
+        data.forEach(item => {
+            const btn = document.createElement('button');
+            btn.textContent = item.title;
+            btn.onclick = () => window.open(item.url, '_blank');
+            contentDiv.appendChild(btn);
+        });
+        if(data.length === 0){
+            contentDiv.innerHTML = '<p>No items found.</p>';
+        }
+    } catch (err) {
+        console.error(err);
+        contentDiv.innerHTML = '<p>Failed to load content.</p>';
+    }
+}
+</script>
+
+</body>
+</html>
 
