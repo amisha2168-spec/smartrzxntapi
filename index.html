@@ -1,206 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Study Resources</title>
-<style>
-/* Animated background */
-body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #0f2027;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    overflow-x: hidden;
-    color: #fff;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aarambh Batch Resources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
 
-h1 {
-    text-align: center;
-    margin: 20px 0;
-    font-size: 2.5rem;
-    letter-spacing: 1px;
-}
+        /* --- Animated Gradient Background --- */
+        .animated-gradient {
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #020617);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
 
-/* Subject dropdown */
-select {
-    display: block;
-    margin: 0 auto 30px auto;
-    padding: 12px 20px;
-    font-size: 16px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    background: rgba(255,255,255,0.9);
-    color: #333;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-select:hover {
-    transform: scale(1.05);
-}
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-/* Tabs */
-.tabs {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-    gap: 15px;
-}
-.tab {
-    padding: 12px 25px;
-    border-radius: 30px;
-    cursor: pointer;
-    background: rgba(255,255,255,0.2);
-    color: #fff;
-    font-weight: bold;
-    transition: all 0.3s;
-}
-.tab.active {
-    background: #ff8c00;
-    color: #fff;
-    box-shadow: 0 4px 15px rgba(255,140,0,0.5);
-}
+        /* --- Card Animation --- */
+        .card-enter {
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
 
-/* Content cards */
-.content {
-    display: flex;
-    flex-direction: column-reverse; /* reverse order */
-    align-items: center;
-    gap: 20px;
-    padding-bottom: 50px;
-}
-.card {
-    width: 80%;
-    max-width: 500px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-}
-.card:hover {
-    transform: translateY(-5px) scale(1.03);
-    background: rgba(255,140,0,0.8);
-    color: #fff;
-}
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
 
-/* Background animation circles */
-.circle {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.05);
-    animation: float 25s linear infinite;
-}
-@keyframes float {
-    0% { transform: translateY(100vh) scale(0.5); opacity: 0.3; }
-    50% { transform: translateY(50vh) scale(1); opacity: 0.5; }
-    100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
-}
-</style>
+        /* --- Active/Inactive Styles --- */
+        .subject-btn.active {
+             background-color: #38bdf8;
+             color: #0f172a;
+             box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+        }
+        .tab-btn.active {
+            background-color: #f0f9ff;
+            color: #0c4a6e;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-slate-900 text-slate-200">
+    <div class="animated-gradient"></div>
 
-<h1>Study Resources</h1>
+    <div class="container mx-auto p-4 md:p-8 min-h-screen flex flex-col items-center">
+        <!-- Header -->
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-blue-500">
+                Aarambh Batch Resources
+            </h1>
+            <p class="text-slate-400 mt-2 text-lg">Select a subject to view lectures and notes.</p>
+        </header>
 
-<select id="subjectSelect">
-    <option value="">Select Subject</option>
-    <option value="math">Math</option>
-    <option value="science">Science</option>
-    <option value="sst">SST</option>
-    <option value="eng">English</option>
-    <option value="it">IT</option>
-    <option value="ai">AI</option>
-    <option value="hindi">Hindi</option>
-    <option value="sanskrit">Sanskrit</option>
-</select>
+        <!-- Subject Selection -->
+        <div id="subject-selection" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4 w-full max-w-6xl mb-8 md:mb-12">
+            <!-- Subject buttons will be injected here by JS -->
+        </div>
 
-<div class="tabs hidden" id="tabs">
-    <div class="tab active" data-type="lectures">Lectures</div>
-    <div class="tab" data-type="notes">Notes</div>
-</div>
+        <!-- Content Display Area -->
+        <main id="content-display" class="hidden w-full max-w-6xl flex-1 flex-col">
+            <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-4 md:p-6 w-full flex-1 flex flex-col">
+                <!-- Tabs -->
+                <div id="tabs" class="flex space-x-2 border-b border-slate-700 mb-4">
+                    <button data-type="lectures" class="tab-btn py-2 px-4 rounded-t-md text-slate-300 transition-colors duration-300 font-medium">Lectures</button>
+                    <button data-type="notes" class="tab-btn py-2 px-4 rounded-t-md text-slate-300 transition-colors duration-300 font-medium">Notes</button>
+                </div>
+                
+                <!-- Loader -->
+                <div id="loader" class="hidden flex-1 flex items-center justify-center">
+                    <svg class="animate-spin h-10 w-10 text-sky-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
 
-<div class="content" id="content"></div>
+                <!-- Results -->
+                <div id="results-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto pr-2" style="max-height: 60vh;">
+                    <!-- Content cards will be injected here -->
+                </div>
+            </div>
+        </main>
+    </div>
 
-<!-- Animated circles -->
-<script>
-for(let i=0;i<15;i++){
-    const circle = document.createElement('div');
-    circle.classList.add('circle');
-    let size = Math.random()*100 + 50;
-    circle.style.width = `${size}px`;
-    circle.style.height = `${size}px`;
-    circle.style.left = Math.random()*100 + 'vw';
-    circle.style.animationDuration = (20 + Math.random()*20) + 's';
-    circle.style.background = `rgba(255,255,255,${Math.random()*0.1 + 0.05})`;
-    document.body.appendChild(circle);
-}
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const subjects = {
+                "Math": { lectures: "/api/9/aarambh/math/lectures.json", notes: "/api/9/aarambh/math/notes.json" },
+                "Science": { lectures: "/api/9/aarambh/science/lectures.json", notes: "/api/9/aarambh/science/notes.json" },
+                "SST": { lectures: "/api/9/aarambh/sst/lectures.json", notes: "/api/9/aarambh/sst/notes.json" },
+                "English": { lectures: "/api/9/aarambh/eng/lectures.json", notes: "/api/9/aarambh/eng/notes.json" },
+                "IT": { lectures: "/api/9/aarambh/it/lectures.json", notes: "/api/9/aarambh/it/notes.json" },
+                "AI": { lectures: "/api/9/aarambh/ai/lectures.json", notes: "/api/9/aarambh/ai/notes.json" },
+                "Hindi": { lectures: "/api/9/aarambh/hindi/lectures.json", notes: "/api/9/aarambh/hindi/notes.json" },
+                "Sanskrit": { lectures: "/api/9/aarambh/sanskrit/lectures.json", notes: "/api/9/aarambh/sanskrit/notes.json" }
+            };
+            const BASE_URL = "https://ntapi.netlify.app";
 
-<script>
-const baseURL = "https://ntapi.netlify.app/api/9/aarambh";
-const subjectSelect = document.getElementById('subjectSelect');
-const tabs = document.getElementById('tabs');
-const contentDiv = document.getElementById('content');
-let currentSubject = '';
-let currentTab = 'lectures';
+            const subjectContainer = document.getElementById('subject-selection');
+            const contentDisplay = document.getElementById('content-display');
+            const tabsContainer = document.getElementById('tabs');
+            const loader = document.getElementById('loader');
+            const resultsContainer = document.getElementById('results-container');
+            
+            let currentSubject = null;
+            let currentType = 'lectures'; // Default to lectures
 
-subjectSelect.addEventListener('change', () => {
-    currentSubject = subjectSelect.value;
-    if (!currentSubject) {
-        tabs.classList.add('hidden');
-        contentDiv.innerHTML = '';
-        return;
-    }
-    tabs.classList.remove('hidden');
-    currentTab = 'lectures';
-    loadContent(currentSubject, currentTab);
-    updateTabs();
-});
+            // --- 1. Create Subject Buttons ---
+            Object.keys(subjects).forEach(subjectName => {
+                const button = document.createElement('button');
+                button.textContent = subjectName;
+                button.dataset.subject = subjectName;
+                button.className = "subject-btn text-lg font-semibold bg-slate-800 hover:bg-sky-500/80 hover:text-white transition-all duration-300 ease-in-out rounded-lg p-4 transform hover:scale-105 shadow-lg";
+                subjectContainer.appendChild(button);
+            });
+            const subjectButtons = document.querySelectorAll('.subject-btn');
+            const tabButtons = document.querySelectorAll('.tab-btn');
 
-tabs.addEventListener('click', (e) => {
-    if (e.target.classList.contains('tab')) {
-        currentTab = e.target.getAttribute('data-type');
-        updateTabs();
-        loadContent(currentSubject, currentTab);
-    }
-});
+            // --- 2. Fetch and Render Logic ---
+            const fetchDataAndRender = async () => {
+                if (!currentSubject) return;
 
-function updateTabs() {
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('active');
-        if (tab.getAttribute('data-type') === currentTab) {
-            tab.classList.add('active');
-        }
-    });
-}
+                loader.classList.remove('hidden');
+                resultsContainer.innerHTML = ''; // Clear previous results
+                resultsContainer.classList.add('hidden');
 
-async function loadContent(subject, type) {
-    contentDiv.innerHTML = '<p>Loading...</p>';
-    try {
-        const response = await fetch(`${baseURL}/${subject}/${type}.json`);
-        const data = await response.json();
-        contentDiv.innerHTML = '';
-        data.reverse().forEach(item => { // reverse order
-            const card = document.createElement('div');
-            card.classList.add('card');
-            card.textContent = item.title;
-            card.onclick = () => window.open(item.url, '_blank');
-            contentDiv.appendChild(card);
+                const urlPath = subjects[currentSubject][currentType];
+                const fullUrl = BASE_URL + urlPath;
+
+                try {
+                    const response = await fetch(fullUrl);
+                    if (!response.ok) {
+                        throw new Error(`Network response was not ok (status: ${response.status})`);
+                    }
+                    const data = await response.json();
+                    
+                    // Display from bottom to top
+                    const reversedData = data.reverse();
+                    
+                    if (reversedData.length === 0) {
+                         resultsContainer.innerHTML = `<p class="col-span-full text-center text-slate-400">No content found for this section.</p>`;
+                    } else {
+                        reversedData.forEach((item, index) => {
+                            const card = document.createElement('a');
+                            card.href = item.url;
+                            card.target = '_blank';
+                            card.rel = 'noopener noreferrer';
+                            card.className = 'card-enter bg-slate-800/70 border border-slate-700 p-4 rounded-lg flex items-center justify-between hover:bg-slate-700/90 hover:border-sky-500 transition-all duration-300 group';
+                            card.style.animationDelay = `${index * 50}ms`;
+                            
+                            card.innerHTML = `
+                                <span class="font-medium text-slate-300 group-hover:text-sky-300">${item.title}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-slate-500 group-hover:text-sky-400 transition-transform duration-300 group-hover:translate-x-1">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            `;
+                            resultsContainer.appendChild(card);
+                        });
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch data:", error);
+                    resultsContainer.innerHTML = `<p class="col-span-full text-center text-red-400">Could not load resources. Please try again later.</p>`;
+                } finally {
+                    loader.classList.add('hidden');
+                    resultsContainer.classList.remove('hidden');
+                }
+            };
+
+            // --- 3. Event Listeners ---
+            subjectButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    currentSubject = button.dataset.subject;
+                    
+                    // Update active subject button style
+                    subjectButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Show content area
+                    contentDisplay.classList.remove('hidden');
+                    contentDisplay.classList.add('flex');
+
+                    // Reset to lectures tab and fetch data
+                    currentType = 'lectures';
+                    updateActiveTab();
+                    fetchDataAndRender();
+                });
+            });
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    currentType = button.dataset.type;
+                    updateActiveTab();
+                    fetchDataAndRender();
+                });
+            });
+
+            // --- 4. Helper Functions ---
+            const updateActiveTab = () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                document.querySelector(`.tab-btn[data-type="${currentType}"]`).classList.add('active');
+            };
         });
-        if(data.length === 0){
-            contentDiv.innerHTML = '<p>No items found.</p>';
-        }
-    } catch (err) {
-        console.error(err);
-        contentDiv.innerHTML = '<p>Failed to load content.</p>';
-    }
-}
-</script>
-
+    </script>
 </body>
 </html>
