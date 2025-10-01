@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aarambh Batch Resources</title>
+    <script>
+  // Allowed domains
+  const allowedDomains = ["aaramb.netlify.app", "www.example.com"];
+
+  // Get current domain
+  const currentDomain = window.location.hostname;
+
+  // If domain not allowed, stop loading
+  if (!allowedDomains.includes(currentDomain)) {
+      // Option 1: Redirect to a safe page
+      window.location.href = "https://example.com/unauthorized.html";
+
+      // Option 2: Stop rendering
+      document.write(""); // Clear page
+      throw new Error("This page is not allowed on this domain");
+  }
+</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -162,10 +179,13 @@
                 resultsContainer.classList.add('hidden');
 
                 const urlPath = subjects[currentSubject][currentType];
-                const fullUrl = BASE_URL + urlPath;
+                const targetUrl = BASE_URL + urlPath;
+                // Using a CORS proxy to bypass fetch restrictions in certain environments.
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+
 
                 try {
-                    const response = await fetch(fullUrl);
+                    const response = await fetch(proxyUrl);
                     if (!response.ok) {
                         throw new Error(`Network response was not ok (status: ${response.status})`);
                     }
