@@ -13,8 +13,6 @@
 
   // If domain not allowed, stop loading
   if (!allowedDomains.includes(currentDomain)) {
-      // Option 1: Redirect to a safe page
-      window.location.href = "https://example.com/unauthorized.html";
 
       // Option 2: Stop rendering
       document.write(""); // Clear page
